@@ -1,7 +1,8 @@
 // Codebase-scan judgments. These ask whether an issue exists in complete
 // source, rather than whether a patch introduced one.
-import { choice, noul, score, TypeSafeClient } from "@typesafe-ai/sdk";
+import { choice, noul, score } from "@typesafe-ai/sdk";
 import { basename, dirname } from "node:path";
+import { openJev as client } from "../adapters/openjev.ts";
 import {
   BLOCKING_SEVERITY,
   type Dimension,
@@ -21,7 +22,6 @@ import type {
   SourceFile,
 } from "../domain/types.ts";
 
-const client = new TypeSafeClient();
 const REGION_LINES = 80;
 const SCREEN_REGION_LINES = 160;
 const MAX_RELATED_TESTS = 4;

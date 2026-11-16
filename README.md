@@ -1,12 +1,12 @@
 # Jev Review
 
-A small code-review workflow built with [TypeSafe Jev](https://typesafe.ai). It can review a Git diff or scan a complete codebase, follows the strongest structured signals through focused model calls, and presents the result in a quiet local dashboard.
+A small local-first code-review workflow built with [OpenJev](https://github.com/alanhuangyoo/OpenJev). It can review a Git diff or scan a complete codebase, follows the strongest structured signals through focused model calls, and presents the result in a quiet local dashboard.
 
 ![Jev Review dashboard](docs/dashboard.png)
 
 ## How It Works
 
-The reviewer keeps orchestration in code and uses Jev for bounded judgments:
+The reviewer keeps orchestration in code and uses OpenJev for bounded judgments:
 
 ```text
 Noul risk matrix
@@ -28,12 +28,19 @@ Noul risk matrix
 
 ## Quick Start
 
-Requires Node.js 24+, Git, and a [TypeSafe API key](https://console.typesafe.ai/settings/keys).
+Requires Node.js 24+, Git, Docker, and enough memory and disk for the model. The first container start downloads model weights from Hugging Face (the 1.7B weights are approximately 3.5 GB); later starts reuse the named cache volume.
 
 ```bash
 npm install
-cp .env.example .env
-# Add TYPESAFE_API_KEY to .env
+docker build -t jev-review-openjev .
+docker run --name jev-review-openjev -p 127.0.0.1:8009:8009 \
+  -v jev-review-models:/home/openjev/.cache/huggingface jev-review-openjev
+```
+
+In another terminal:
+
+```bash
+# Optional: cp .env.example .env to change the loopback port
 
 # Review the current Git diff
 npm run review:changes:save -- /path/to/git/repository
@@ -45,6 +52,13 @@ npm run dashboard
 
 Open [http://127.0.0.1:4317](http://127.0.0.1:4317).
 
+The container uses CPU inference and serves the 1.7B model by default. It may
+take several minutes to download and load; check readiness with
+`curl http://127.0.0.1:8009/v1/models`. Stop it with
+`docker stop jev-review-openjev` and restart it with `docker start jev-review-openjev`.
+See [solution.md](solution.md) for model selection, offline use, privacy,
+resource requirements, and differences from hosted Jev.
+
 ## Commands
 
 | Command | Purpose |
@@ -54,7 +68,7 @@ Open [http://127.0.0.1:4317](http://127.0.0.1:4317).
 | `npm run review:codebase -- <path>` | Print a complete codebase scan as JSON |
 | `npm run review:codebase:save -- <path>` | Save a complete codebase scan for the dashboard |
 | `npm run dashboard` | Start the local dashboard |
-| `npm run check` | Typecheck, verify dependency flow, and syntax-check the dashboard client |
+| `npm run check` | Typecheck, verify dependency flow, syntax-check the dashboard client, and run tests |
 
 ## Architecture
 

@@ -1,0 +1,38 @@
+* text=auto
+
+*.conf text eol=lf
+*.template text eol=lf
+*.scss text eol=lf
+*.css text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.tf text eol=lf
+*.tfvars text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+*.js text eol=lf
+*.mjs text eol=lf
+*.cjs text eol=lf
+*.md text eol=lf
+*.html text eol=lf
+*.diff text eol=lf
+*.py text eol=lf
+*.sql text eol=lf
+*.toml text eol=lf
+*.txt text eol=lf
+*.code-workspace text eol=lf
+# explicit files:
+Makefile text eol=lf
+Dockerfile text eol=lf
+*.Dockerfile text eol=lf
+
+# binary overrides
+*.zip binary
+*.tar binary
+*.gz binary
+*.jar binary
+*.lock -text
+*.png binary
+*.jpg binary
