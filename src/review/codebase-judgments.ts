@@ -2,7 +2,7 @@
 // source, rather than whether a patch introduced one.
 import { choice, noul, score } from "@typesafe-ai/sdk";
 import { basename, dirname } from "node:path";
-import { openJev as client } from "../adapters/openjev.ts";
+import { decisionClient as client } from "../adapters/decision-client.ts";
 import {
   BLOCKING_SEVERITY,
   type Dimension,

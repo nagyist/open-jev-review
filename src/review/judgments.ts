@@ -1,6 +1,6 @@
 // Change-review judgments. Every call is narrow and receives patch evidence.
 import { choice, noul, score } from "@typesafe-ai/sdk";
-import { openJev as client } from "../adapters/openjev.ts";
+import { decisionClient as client } from "../adapters/decision-client.ts";
 import {
   BLOCKING_SEVERITY,
   type Dimension,

@@ -1,0 +1,22 @@
+services:
+  model:
+    build:
+      context: .
+      target: ${REVIEW_PROVIDER-openjev}
+    image: jev-review-${REVIEW_PROVIDER-openjev}
+    environment:
+      OPENJEV_MODEL: ${OPENJEV_MODEL-alanhuangya/OpenJev-1.7B}
+      KEV_MODEL: ${KEV_MODEL-jaredpalmer/kev-4b@v1.0}
+      HF_HUB_OFFLINE: ${HF_HUB_OFFLINE-0}
+    ports:
+      - "127.0.0.1:8009:8009"
+    volumes:
+      - type: volume
+        source: ${REVIEW_PROVIDER-openjev}-models
+        target: /home/${REVIEW_PROVIDER-openjev}/.cache/huggingface
+
+volumes:
+  openjev-models:
+    name: jev-review-models
+  kev-models:
+    name: jev-review-kev-models
